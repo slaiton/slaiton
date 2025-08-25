@@ -69,19 +69,21 @@
 
 <!-- GitHub Stats -->
 <p align="center">
+  <!--
   <img 
     src="https://github-readme-stats.vercel.app/api?username=slaiton&show_icons=true&theme=radical&count_private=true" 
-    alt="Estadísticas de GitHub" height="150"/>
+    alt="Estadísticas de GitHub" height="150"/> -->
   <img 
     src="https://github-readme-stats.vercel.app/api/top-langs/?username=slaiton&layout=compact&langs_count=8" 
     alt="Top Langs" height="150" />
 </p>
 
-<p align="center">
+<!-- <p align="center">
   <img 
     src="https://activity-graph.herokuapp.com/graph?username=slaiton&theme=react-dark&custom_title=Mi+Actividad+de+GitHub" 
     alt="Gráfica de actividad de GitHub"/>
-</p>
+</p> -->
+
 
 <!-- Activity Graph -->
 <p align="center">

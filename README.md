@@ -5,10 +5,10 @@
 
 <!-- BADGES RÁPIDOS -->
 <p align="center">
-  <a href="https://github.com/TU-USUARIO?tab=repositories">
+  <a href="https://github.com/slaiton?tab=repositories">
     <img src="https://img.shields.io/badge/Code-Angular%20%7C%20Laravel%20%7C%20Android-0A0A0A?logo=visualstudiocode&logoColor=white" alt="Stack">
   </a>
-  <a href="mailto:tu.correo@ejemplo.com">
+  <a href="mailto:jstivenlaiton@gmail.com">
     <img src="https://img.shields.io/badge/Contacto-Email-informational" alt="Email">
   </a>
   <img src="https://komarev.com/ghpvc/?username=TU-USUARIO&style=flat&label=Visitas" alt="Visitas al perfil">
@@ -30,7 +30,7 @@
   <li>📦 DB: PostgreSQL y MySQL; consultas nativas cuando se requiere rendimiento.</li>
   <li>📱 Android: migrando proyectos a SDK 34, usando Volley y KAPT, con preferencia por View/Data Binding.</li>
   <li>🌊 Fuera del teclado: música, skate, y aprendiendo surf.</li>
-  <li>📫 Contáctame: <a href="mailto:tu.correo@ejemplo.com">tu.correo@ejemplo.com</a></li>
+  <li>📫 Contáctame: <a href="mailto:jstivenlaiton@gmail.com">jstivenlaiton@gmail.com</a></li>
 </ul>
 
 <!-- TECH STACK (ICONOS) -->
@@ -42,7 +42,7 @@
   <img height="28" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript"/>
   <img height="28" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"/>
   <img height="28" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP"/>
-  <img height="28" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg" alt="Laravel"/>
+  <img height="28" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" alt="Laravel"/>
   <img height="28" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"/>
   <img height="28" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL"/>
   <img height="28" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" alt="Android"/>
@@ -70,33 +70,33 @@
 <!-- GitHub Stats -->
 <p align="center">
   <img 
-    src="https://github-readme-stats.vercel.app/api?username=TU-USUARIO&show_icons=true&include_all_commits=true&count_private=true" 
+    src="https://github-readme-stats.vercel.app/api?username=slaiton&show_icons=true&include_all_commits=true&count_private=true" 
     alt="GitHub Stats" height="150" />
   <img 
-    src="https://github-readme-stats.vercel.app/api/top-langs/?username=TU-USUARIO&layout=compact&langs_count=8" 
+    src="https://github-readme-stats.vercel.app/api/top-langs/?username=slaiton&layout=compact&langs_count=8" 
     alt="Top Langs" height="150" />
 </p>
 
 <!-- Streak -->
 <p align="center">
   <img 
-    src="https://streak-stats.demolab.com?user=TU-USUARIO" 
+    src="https://streak-stats.demolab.com?user=slaiton" 
     alt="GitHub Streak" height="150" />
 </p>
 
 <!-- Activity Graph -->
 <p align="center">
   <img 
-    src="https://github-readme-activity-graph.vercel.app/graph?username=TU-USUARIO&hide_border=true" 
+    src="https://github-readme-activity-graph.vercel.app/graph?username=slaiton&hide_border=true" 
     alt="GitHub Activity Graph" />
 </p>
 
 <!-- CONTACTO / ENLACES -->
 <h2>🔗 Enlaces</h2>
 <p>
-  <a href="https://github.com/TU-USUARIO">GitHub</a> •
-  <a href="https://www.linkedin.com/in/TU-LINKEDIN/">LinkedIn</a> •
-  <a href="mailto:tu.correo@ejemplo.com">Email</a>
+  <a href="https://github.com/slaiton">GitHub</a> •
+  <a href="https://www.linkedin.com/in/stiven-laiton-3020a615a/">LinkedIn</a> •
+  <a href="mailto:jstivenlaiton@gmail.com">Email</a>
 </p>
 
 <!-- FOOTER -->

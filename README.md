@@ -70,7 +70,7 @@
 <!-- GitHub Stats -->
 <p align="center">
   <img 
-    src="https://github-readme-stats.vercel.app/api?username=slaiton&show_icons=true&theme=radical" 
+    src="https://github-readme-stats.vercel.app/api?username=slaiton&show_icons=true&theme=radical&count_private=true" 
     alt="Estadísticas de GitHub" height="150"/>
   <img 
     src="https://github-readme-stats.vercel.app/api/top-langs/?username=slaiton&layout=compact&langs_count=8" 

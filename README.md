@@ -1,6 +1,6 @@
 <h1 align="center">👋 Hola, soy Stiven Laiton</h1>
 <p align="center">
-  Desarrollador full-stack (Angular • Laravel • Android) — me gustan la música, el skate y quiero llevar esa vibra al surf 🏄‍♂️🎶🛹
+  Desarrollador full-stack (Angular • Laravel • Android)
 </p>
 
 <!-- BADGES RÁPIDOS -->
@@ -16,7 +16,7 @@
 
 <!-- DESCRIPCIÓN INICIAL -->
 <p>
-  Soy desarrollador con enfoque en front-end (Angular/Ionic) y back-end (Laravel, PHP) con bases de datos PostgreSQL y MySQL.
+  Soy desarrollador con enfoque en front-end (Angular/Ionic) y back-end (Laravel, PHP, Python) con bases de datos PostgreSQL y MySQL.
   También trabajo con Android (Kotlin/Java), preferiendo Data Binding y View Binding. Me gusta crear interfaces limpias,
   accesibles y con rendimiento sólido, y disfruto resolver problemas de integración entre API y UI.
 </p>
@@ -29,7 +29,6 @@
   <li>🔭 Actualmente: construyendo apps en Angular + Laravel e integrando calendarios y componentes custom sin librerías pesadas.</li>
   <li>📦 DB: PostgreSQL y MySQL; consultas nativas cuando se requiere rendimiento.</li>
   <li>📱 Android: migrando proyectos a SDK 34, usando Volley y KAPT, con preferencia por View/Data Binding.</li>
-  <li>🌊 Fuera del teclado: música, skate, y aprendiendo surf.</li>
   <li>📫 Contáctame: <a href="mailto:jstivenlaiton@gmail.com">jstivenlaiton@gmail.com</a></li>
 </ul>
 

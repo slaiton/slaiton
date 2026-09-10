@@ -1,0 +1,48 @@
+# Ubicación en tu repo de perfil (slaiton/slaiton): .github/workflows/metrics.yml
+#
+# Requisito previo:
+#   1. Crea un Personal Access Token (classic) en https://github.com/settings/tokens
+#      - Sin scopes  -> solo estadísticas de repos públicos
+#      - Con scope `repo` -> incluye también tu actividad en repos privados
+#   2. Guárdalo en el repo como secreto: Settings > Secrets and variables > Actions
+#      Nombre del secreto: METRICS_TOKEN
+#   3. Ejecuta el workflow manualmente la primera vez (pestaña Actions > Run workflow)
+#
+# El resultado se commitea como github-metrics.svg dentro de tu propio repo,
+# así que la imagen la sirve GitHub y no depende de ningún servicio externo.
+
+name: Metrics
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # todos los días a las 06:00 UTC (01:00 en Colombia)
+  workflow_dispatch:       # permite ejecutarlo a mano
+  push:
+    branches: ["main"]
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Generar métricas
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: slaiton
+          filename: github-metrics.svg
+          template: classic
+          base: header, activity, repositories, metadata
+          config_timezone: America/Bogota
+
+          # Lenguajes: análisis real del contenido de los repos,
+          # no solo el lenguaje principal que reporta GitHub
+          plugin_languages: yes
+          plugin_languages_indepth: yes
+          plugin_languages_limit: 8
+          plugin_languages_details: percentage
+
+          # Calendario de commits del último año (reemplaza el activity graph)
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year

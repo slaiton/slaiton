@@ -1,22 +1,25 @@
-# Ubicación en tu repo de perfil (slaiton/slaiton): .github/workflows/metrics.yml
-#
-# Requisito previo: token CLASSIC (ghp_...) guardado como secreto METRICS_TOKEN.
-#   - Sin scopes            -> solo repos públicos propios
-#   - Con scope `repo`      -> incluye repos privados y donde eres colaborador
-#   - Con scope `read:org`  -> incluye repos de organizaciones a las que perteneces
+# Ubicación en tu repo de perfil (slaiton/slaiton):
+# .github/workflows/metrics.yml
 
 name: Metrics
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # diario, 06:00 UTC (01:00 en Colombia)
-  workflow_dispatch:       # ejecución manual desde la pestaña Actions
+    - cron: "0 6 * * *"   # Diario, 06:00 UTC (01:00 en Colombia)
+
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
 
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
+
     permissions:
       contents: write
+
     steps:
       - name: Generar métricas
         uses: lowlighter/metrics@latest
@@ -28,30 +31,35 @@ jobs:
           base: header, activity, repositories, metadata
           config_timezone: America/Bogota
 
-          # ─── Ampliar el alcance más allá de tus propios repos ───────────────
-          # owner                -> repos que te pertenecen
-          # collaborator         -> repos ajenos donde te dieron acceso
-          # organization_member  -> repos de organizaciones donde eres miembro
+          # ─── Repositorios incluidos ────────────────────────────────────────
+          #
+          # owner                -> repositorios propios
+          # collaborator         -> repositorios ajenos donde colaboras
+          # organization_member  -> repositorios de organizaciones donde eres miembro
+          #
+          # El token METRICS_TOKEN debe tener acceso a los repositorios privados.
           repositories_affiliations: owner, collaborator, organization_member
 
           # ─── Lenguajes ──────────────────────────────────────────────────────
-          # "most-used"    analiza el contenido de los repos del alcance de arriba
-          # "recently-used" analiza TUS commits recientes en cualquier repo,
-          #                 sea tuyo o no, leyendo tu historial de eventos
+          #
+          # "most-used" analiza el código de los repositorios incluidos arriba.
+          # Al incluir owner/collaborator/organization_member y usar un token
+          # con acceso a privados, también puede analizar tus repos privados.
+          #
+          # recently-used se mantiene desactivado porque estaba provocando
+          # el error del analyzer "committer".
           plugin_languages: yes
           plugin_languages_indepth: yes
           plugin_languages_sections: most-used
           plugin_languages_limit: 8
           plugin_languages_details: percentage
-          plugin_languages_analysis_timeout: 15    # minutos, corta si se alarga
+          plugin_languages_analysis_timeout: 15
 
           # ─── Calendario de contribuciones ───────────────────────────────────
-          # Refleja el mismo conteo que muestra tu perfil de GitHub:
-          # incluye commits en repos ajenos y privados (ver notas más abajo)
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
 
-          # ─── Hábitos de commit (basado en actividad reciente, sea donde sea) ─
+          # ─── Hábitos de commit ──────────────────────────────────────────────
           plugin_habits: yes
           plugin_habits_from: 200
           plugin_habits_facts: yes

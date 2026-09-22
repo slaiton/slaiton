@@ -38,6 +38,9 @@ jobs:
           # organization_member  -> repositorios de organizaciones donde eres miembro
           #
           # El token METRICS_TOKEN debe tener acceso a los repositorios privados.
+          repositories: 1000
+          repositories_batch: 100
+          
           repositories_affiliations: owner, collaborator, organization_member
 
           # ─── Lenguajes ──────────────────────────────────────────────────────

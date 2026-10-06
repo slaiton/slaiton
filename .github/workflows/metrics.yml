@@ -1,69 +1,164 @@
 # Ubicación en tu repo de perfil (slaiton/slaiton):
 # .github/workflows/metrics.yml
+#
+# Genera 3 tarjetas independientes:
+#   1. metrics.general.svg    -> resumen, actividad, logros, líneas, issues/PRs
+#   2. metrics.languages.svg  -> lenguajes (incluye repos PRIVADOS, análisis in-depth)
+#   3. metrics.habits.svg     -> calendario ISO + hábitos de commit
+#
+# Si una falla (p. ej. el análisis de lenguajes por timeout), las demás se publican igual.
+#
+# ─── REQUISITOS DEL TOKEN (secrets.METRICS_TOKEN) ────────────────────────────
+# Usa un Personal Access Token CLASSIC (no fine-grained) con estos scopes:
+#   [x] repo          (completo: necesario para leer y clonar repos privados)
+#   [x] read:org      (repos de organizaciones)
+#   [x] read:user
+# Si alguna organización usa SAML SSO: Settings > Tokens > "Configure SSO" > Authorize.
 
 name: Metrics
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # Diario, 06:00 UTC (01:00 en Colombia)
-
-  push:
-    branches:
-      - main
-
+    - cron: "0 6 * * *"        # Diario, 06:00 UTC (01:00 en Colombia)
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:              # Evita que los commits de los SVG relancen el workflow
+      - "*.svg"
+      - "README.md"
+
+concurrency:                   # Nunca dos ejecuciones a la vez (evita conflictos de push)
+  group: metrics
+  cancel-in-progress: false
+
+permissions:
+  contents: write
 
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
+    timeout-minutes: 90
 
     steps:
-      - name: Generar métricas
+      # ════════════════════════════════════════════════════════════════════
+      # 1) TARJETA GENERAL
+      # ════════════════════════════════════════════════════════════════════
+      - name: Métricas generales
         uses: lowlighter/metrics@latest
+        continue-on-error: true
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           user: slaiton
-          filename: github-metrics.svg
+          filename: metrics.general.svg
           template: classic
-          base: header, activity, repositories, metadata
+          use_prebuilt_image: yes
+          committer_message: "chore(metrics): actualizar ${filename} [skip ci]"
           config_timezone: America/Bogota
+          config_display: large
 
-          # ─── Repositorios incluidos ────────────────────────────────────────
-          #
-          # owner                -> repositorios propios
-          # collaborator         -> repositorios ajenos donde colaboras
-          # organization_member  -> repositorios de organizaciones donde eres miembro
-          #
-          # El token METRICS_TOKEN debe tener acceso a los repositorios privados.
+          base: header, activity, community, repositories, metadata
           repositories: 1000
           repositories_batch: 100
-          
           repositories_affiliations: owner, collaborator, organization_member
+          repositories_forks: no
 
-          # ─── Lenguajes ──────────────────────────────────────────────────────
-          #
-          # "most-used" analiza el código de los repositorios incluidos arriba.
-          # Al incluir owner/collaborator/organization_member y usar un token
-          # con acceso a privados, también puede analizar tus repos privados.
-          #
-          # recently-used se mantiene desactivado porque estaba provocando
-          # el error del analyzer "committer".
+          # Logros (estilo "badges")
+          plugin_achievements: yes
+          plugin_achievements_threshold: B
+          plugin_achievements_secrets: yes
+          plugin_achievements_display: compact
+          plugin_achievements_limit: 8
+
+          # Líneas añadidas/eliminadas (solo totales: no expone nombres de repos privados)
+          plugin_lines: yes
+          plugin_lines_sections: base
+
+          # Issues y PRs (solo los tuyos)
+          plugin_followup: yes
+          plugin_followup_sections: user
+
+      # ════════════════════════════════════════════════════════════════════
+      # 2) TARJETA DE LENGUAJES (con repos privados)
+      # ════════════════════════════════════════════════════════════════════
+      - name: Lenguajes (públicos + privados)
+        uses: lowlighter/metrics@latest
+        continue-on-error: true
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: slaiton
+          filename: metrics.languages.svg
+          template: classic
+          use_prebuilt_image: yes
+          committer_message: "chore(metrics): actualizar ${filename} [skip ci]"
+          config_timezone: America/Bogota
+          base: ""
+
+          repositories: 1000
+          repositories_batch: 100
+          repositories_affiliations: owner, collaborator, organization_member
+          repositories_forks: no
+
+          # ─── CLAVE PARA LOS PRIVADOS ──────────────────────────────────────
+          # El modo in-depth clona cada repo y solo cuenta TUS commits.
+          # Identifica tus commits por estos correos/nombres. Si en los repos
+          # privados commiteaste con el correo del trabajo o de un cliente,
+          # agrégalo aquí; si no, esos commits se ignoran y el lenguaje no sale.
+          # (Lo puedes ver con:  git log --format='%ae' | sort -u)
+          commits_authoring: >-
+            slaiton,
+            Stiven Laiton,
+            TU_CORREO_PERSONAL@ejemplo.com,
+            TU_CORREO_TRABAJO@ejemplo.com,
+            slaiton@users.noreply.github.com
+
           plugin_languages: yes
           plugin_languages_indepth: yes
-          plugin_languages_sections: most-used
-          plugin_languages_limit: 8
-          plugin_languages_details: percentage
-          plugin_languages_analysis_timeout: 15
+          plugin_languages_analysis_timeout: 30
+          plugin_languages_sections: most-used, recently-used
+          plugin_languages_recent_days: 30
+          plugin_languages_recent_load: 300
+          plugin_languages_details: bytes-size, percentage
+          plugin_languages_limit: 10
+          plugin_languages_threshold: 1%
+          plugin_languages_other: yes
+          plugin_languages_colors: github
+          plugin_languages_categories: programming
+          plugin_languages_recent_categories: programming
+          # Ruido habitual que infla los porcentajes (ajusta a gusto)
+          plugin_languages_ignored: >-
+            html, css, scss, blade, jupyter notebook, makefile, procfile, batchfile
+          # Repos a excluir del análisis (forks vendorizados, plantillas, etc.)
+          # plugin_languages_skipped: owner/repo-a, owner/repo-b
 
-          # ─── Calendario de contribuciones ───────────────────────────────────
+      # ════════════════════════════════════════════════════════════════════
+      # 3) TARJETA DE CALENDARIO Y HÁBITOS
+      # ════════════════════════════════════════════════════════════════════
+      - name: Calendario y hábitos
+        uses: lowlighter/metrics@latest
+        continue-on-error: true
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: slaiton
+          filename: metrics.habits.svg
+          template: classic
+          use_prebuilt_image: yes
+          committer_message: "chore(metrics): actualizar ${filename} [skip ci]"
+          config_timezone: America/Bogota
+          base: ""
+
+          commits_authoring: >-
+            slaiton,
+            Stiven Laiton,
+            TU_CORREO_PERSONAL@ejemplo.com,
+            TU_CORREO_TRABAJO@ejemplo.com,
+            slaiton@users.noreply.github.com
+
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
 
-          # ─── Hábitos de commit ──────────────────────────────────────────────
           plugin_habits: yes
           plugin_habits_from: 200
+          plugin_habits_days: 30
           plugin_habits_facts: yes
-          plugin_habits_charts: no
+          plugin_habits_charts: yes
+          plugin_habits_trim: yes
